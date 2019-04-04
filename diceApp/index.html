@@ -1,0 +1,93 @@
+<html ng-app="dice">
+<head>
+	<title>RPG dice</title>
+	 <script src='lib/angular.min.js'></script>
+	 <script src="js/appController.js"></script>
+	 <script src="lib/angular-route.min.js"></script>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	 <style>
+		h2{
+			text-align:center;
+			font-weight:bold;
+		}
+		table td input{
+		 	width: 100%;
+		 	   
+		}
+		.nDados{
+			font-weight: bold;
+		}
+		.addDice,.removeDice{
+			padding:5px;
+		}
+		.rollButton{
+			width:100%;
+		}
+		#erro1{
+			position:absolute;
+			top:40%;
+			left:45%;
+		}
+		#erro2{
+			position:absolute;
+			bottom:40%;
+			left:45%;
+		}
+		h3{
+			text-align:center;
+			font-weight:bold;
+		}
+		.nomeDados,.tituloLinha{
+			font-weight:bold;
+		}
+		.nomeDados{
+			text-align: center;
+		}
+	</style>
+</head>
+<body ng-controller='diceCtrl'>
+	<h2>RPG Dice</h2>
+		<table class="table">
+				<td></td>	
+			 	<td class="nomeDados" ng-repeat='dado in dados'>{{dado.nome}}</td>
+			 	<tr>
+			 		<td class="tituloLinha">Dice number</td>
+					<td class="nDados" ng-repeat='dado in dados'>
+						<input class="inputs" type="text" ng-model="dado.numDados">
+					</td>
+				</tr>
+				<tr>
+					<td class="tituloLinha">Modifier</td>
+					<td class="incremento" ng-repeat='dado in dados'>
+						<input class="inputs" type="text" ng-model="dado.incremento">
+					</td>
+				</tr>
+				<tr>
+					<td>#</td>
+					<td ng-repeat='dado in dados'>
+						<button class="rollButton btn btn-primary" ng-click='rolaDado(dado)' ng-disabled="!regex1.test(dado.numDados) || !regex2.test(dado.incremento)">Roll</button>
+						<span id="erro1" class="alert alert-danger" ng-show="!regex1.test(dado.numDados)">Dice number must be beetween 1-999</span>
+						<span id="erro2" class="alert alert-danger" ng-show="!regex2.test(dado.incremento)">Modifier must be between 0-999</span>
+					</td>
+				</tr>
+		</table>
+	<hr>
+	<div class="gerenciadorDeLista">
+		<div class="removeDice">
+			<span>
+				<input type="text" ng-model="dado.num" placeholder="sides">
+				<button class="btn btn-primary" ng-disabled="!regex1.test(dado.num)" ng-click="adicionaDado(dado.num)">Add dice</button>
+			</span>
+		</div>
+		<div class="addDice">
+			<input type="text" ng-model="numero" placeholder="sides">
+			<button class="btn btn-primary" ng-disabled="!regex1.test(numero)" ng-click="removeDado(numero)">Remove dice</button>
+		</div>
+	</div>
+	<hr>
+	<h3>You have rolled : {{resultado}}</h3>
+	<h3>({{resultadosIndividuais}})</h3>
+</body>
+</html>
